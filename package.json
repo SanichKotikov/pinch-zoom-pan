@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "typings": "index.d.ts",
   "scripts": {
+    "start": "tsc --watch",
     "build": "tsc"
   },
   "repository": {

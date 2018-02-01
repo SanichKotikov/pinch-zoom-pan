@@ -14,5 +14,9 @@ export const getClientPos = (event: TouchEvent | MouseEvent) => {
 export const getTouchesRange = (event: TouchEvent): number => {
   const a = event.touches[0];
   const b = event.touches[1];
-  return Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
+  const dx = b.clientX - a.clientX;
+  const dy = b.clientY - a.clientY;
+  return Math.sqrt(dx * dx + dy * dy);
+  // Maybe someday...
+  // return Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
 };
