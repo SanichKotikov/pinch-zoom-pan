@@ -3,20 +3,26 @@ export const isTouch = (): boolean => (
   !!(typeof navigator !== 'undefined' && (navigator.maxTouchPoints || navigator.msMaxTouchPoints))
 );
 
-export const getClientPos = (event: TouchEvent | MouseEvent) => {
-  if (event instanceof MouseEvent) {
-    return { X: event.clientX, Y: event.clientY };
+export const getClientXY = (e: TouchEvent | MouseEvent) => {
+  if (e instanceof MouseEvent) {
+    return { X: e.clientX, Y: e.clientY };
   }
-  const touch = event.touches[0];
+  const touch = e.touches[0];
   return { X: touch.clientX, Y: touch.clientY };
 };
 
-export const getTouchesRange = (event: TouchEvent): number => {
-  const a = event.touches[0];
-  const b = event.touches[1];
-  const dx = b.clientX - a.clientX;
-  const dy = b.clientY - a.clientY;
-  return Math.sqrt(dx * dx + dy * dy);
-  // Maybe someday...
-  // return Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
-};
+export const getMidXY = (e: TouchEvent) => ({
+  mX: (e.touches[0].pageX + e.touches[1].pageX) / 2,
+  mY: (e.touches[0].pageY + e.touches[1].pageY) / 2,
+});
+
+export const limitZoom = (z: number, min: number, max: number) =>
+  Math.max(Math.min(z, max), min);
+
+// return Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
+export const getTouchesRange = (e: TouchEvent): number => (
+  Math.sqrt(
+    Math.pow(e.touches[0].clientY - e.touches[1].clientY, 2) +
+    Math.pow(e.touches[0].clientX - e.touches[1].clientX, 2)
+  )
+);

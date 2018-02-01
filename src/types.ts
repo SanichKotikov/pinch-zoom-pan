@@ -15,6 +15,8 @@ export interface PZPTransform {
 export interface PZPProps {
   className?: string;
   style?: React.CSSProperties;
+  min: number;
+  max: number;
   captureWheel?: boolean;
   debug?: boolean;
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { isTouch, getClientPos, getTouchesRange } from './helpers';
+import { isTouch, getClientXY, getMidXY, limitZoom, getTouchesRange } from './helpers';
 import { ROOT_STYLES, POINT_STYLES, CANVAS_STYLES, DEBUG_STYLES } from './styles';
 import { pzpAction, PZPProps, PZPState, EventMapItems } from './types';
 
@@ -8,6 +8,11 @@ class PinchZoomPan extends React.Component<PZPProps, PZPState> {
   state: PZPState = {
     transform: { x: 0, y: 0, z: 1 },
     action: pzpAction.None,
+  };
+
+  static defaultProps = {
+    min: 0.1,
+    max: 3.5,
   };
 
   private eventsMap: EventMapItems[];
@@ -94,15 +99,28 @@ class PinchZoomPan extends React.Component<PZPProps, PZPState> {
       this.currentZ = this.state.transform.z;
       this.currentR = getTouchesRange(event);
     } else {
-      this.setState({ action: pzpAction.Moving });
-      const { X, Y } = getClientPos(event);
-      this.updateCurrentPos(X, Y);
+      this.startMoving(event);
     }
   };
 
-  private onTouchEnd = () => {
-    this.setState({ action: pzpAction.None });
+  private onTouchEnd = (event: TouchEvent | MouseEvent) => {
+    if (
+      this.state.action === pzpAction.Pinching &&
+      typeof TouchEvent !== 'undefined' && // IE & EDGE doesn't have TouchEvent
+      event instanceof TouchEvent &&
+      event.touches.length === 1
+    ) {
+      this.startMoving(event);
+    } else {
+      this.setState({ action: pzpAction.None });
+    }
   };
+
+  private startMoving(event: TouchEvent | MouseEvent) {
+    this.setState({ action: pzpAction.Moving });
+    const { X, Y } = getClientXY(event);
+    this.updateCurrentPos(X, Y);
+  }
 
   private onTouchMove = (event: TouchEvent | MouseEvent) => {
     event.stopImmediatePropagation();
@@ -113,7 +131,7 @@ class PinchZoomPan extends React.Component<PZPProps, PZPState> {
   };
 
   private move(event: TouchEvent | MouseEvent) {
-    const { X, Y } = getClientPos(event);
+    const { X, Y } = getClientXY(event);
     const x = this.state.transform.x - (this.currentX - X);
     const y = this.state.transform.y - (this.currentY - Y);
     this.setState({ transform: this.updateTransform({ x, y }) });
@@ -129,12 +147,12 @@ class PinchZoomPan extends React.Component<PZPProps, PZPState> {
     // others
     if (scale === undefined || pageX === undefined || pageY === undefined) {
       scale = getTouchesRange(event) / this.currentR;
-      const touch = event.touches[0];
-      pageX = touch.pageX;
-      pageY = touch.pageY;
+      const { mX, mY } = getMidXY(event);
+      pageX = mX;
+      pageY = mY;
     }
 
-    const z = this.currentZ * scale;
+    const z = limitZoom(this.currentZ * scale, this.props.min, this.props.max);
     const { x, y } = this.getPositionByPoint(z, pageX, pageY);
     this.setState({ transform: this.updateTransform({ x, y, z }) });
   }
@@ -144,7 +162,7 @@ class PinchZoomPan extends React.Component<PZPProps, PZPState> {
     event.preventDefault();
     event.stopPropagation();
     const delta = event.deltaY / 1000 * -1;
-    const z = this.state.transform.z + delta;
+    const z = limitZoom(this.state.transform.z + delta, this.props.min, this.props.max);
     const { x, y } = this.getPositionByPoint(z, event.pageX, event.pageY);
     this.setState({ transform: this.updateTransform({ x, y, z }) });
   };
