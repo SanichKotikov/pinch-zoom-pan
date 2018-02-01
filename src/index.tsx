@@ -85,7 +85,11 @@ class PinchZoomPan extends React.Component<PZPProps, PZPState> {
 
   private onTouchStart = (event: TouchEvent | MouseEvent) => {
     event.preventDefault();
-    if (event instanceof TouchEvent && event.touches.length === 2) {
+    if (
+      typeof TouchEvent !== 'undefined' && // IE & EDGE doesn't have TouchEvent
+      event instanceof TouchEvent &&
+      event.touches.length === 2
+    ) {
       this.setState({ action: pzpAction.Pinching });
       this.currentZ = this.state.transform.z;
       this.currentR = getTouchesRange(event);
