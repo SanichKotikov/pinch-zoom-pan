@@ -13,8 +13,8 @@ npm i -S pinch-zoom-pan
 ```typescript jsx
 import PinchZoomPan from 'pinch-zoom-pan';
 
-<PinchZoomPan>
-  <img />
+<PinchZoomPan style={{ width: 300, height: 300 }}>
+  <img width="600" height="400" />
 </PinchZoomPan>
 ```
 

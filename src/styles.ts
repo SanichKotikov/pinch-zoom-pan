@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export const ROOT_STYLES: React.CSSProperties = {
-  position: 'absolute',
+  position: 'relative',
   transform: 'translateZ(0)',
   overflow: 'hidden',
 };
