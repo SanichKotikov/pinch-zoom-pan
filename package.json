@@ -1,6 +1,6 @@
 {
   "name": "pinch-zoom-pan",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A react component that lets you add pinch-zoom and pan sub components",
   "main": "dist/index.js",
   "typings": "index.d.ts",
@@ -14,7 +14,8 @@
   "author": "Sanich Kotikov <sancho@cdrpro.ru> (https://sanichkotikov.github.io)",
   "license": "MIT",
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "keywords": [
     "react",
