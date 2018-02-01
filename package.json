@@ -1,0 +1,39 @@
+{
+  "name": "pinch-zoom-pan",
+  "version": "1.0.0",
+  "description": "A react component that lets you add pinch-zoom and pan sub components",
+  "main": "dist/index.js",
+  "typings": "index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SanichKotikov/pinch-zoom-pan.git"
+  },
+  "author": "Sanich Kotikov <sancho@cdrpro.ru> (https://sanichkotikov.github.io)",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "react-component",
+    "component",
+    "pinch",
+    "zoom",
+    "pan",
+    "frontend",
+    "ui"
+  ],
+  "bugs": {
+    "url": "https://github.com/SanichKotikov/pinch-zoom-pan/issues"
+  },
+  "devDependencies": {
+    "@types/react": "16.0.35",
+    "react": "16.2.0",
+    "typescript": "2.6.2"
+  },
+  "dependencies": {},
+  "homepage": "https://github.com/SanichKotikov/pinch-zoom-pan"
+}
