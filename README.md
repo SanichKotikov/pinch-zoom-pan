@@ -17,3 +17,12 @@ import PinchZoomPan from 'pinch-zoom-pan';
   <img />
 </PinchZoomPan>
 ```
+
+### Props
+
+| name | description | type | default |
+|------|-------------|------|---------|
+|className? | additional css class | `string` | `''` |
+|style? | additional style | `React.CSSProperties` | `{}` |
+|captureWheel? | capture wheel event, otherwise zoom works with holding `Alt` key | `boolean` | `false` |
+|debug? | render debug info | `boolean` | `false` |
