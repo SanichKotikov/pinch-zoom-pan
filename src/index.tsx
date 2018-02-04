@@ -18,8 +18,8 @@ class PinchZoomPan extends React.Component<PZPProps, PZPState> {
   private eventsMap: EventMapItems[];
 
   private root: HTMLElement;
-  private refPoint: HTMLElement;
-  private canvas: HTMLElement;
+  // private refPoint: HTMLElement;
+  // private canvas: HTMLElement;
 
   private currentX: number;
   private currentY: number;
@@ -170,11 +170,11 @@ class PinchZoomPan extends React.Component<PZPProps, PZPState> {
   private setRoot = (el: HTMLElement | null) =>
     this.root = el as HTMLElement;
 
-  private setRefPoint = (el: HTMLElement | null) =>
-    this.refPoint = el as HTMLElement;
+  // private setRefPoint = (el: HTMLElement | null) =>
+  //   this.refPoint = el as HTMLElement;
 
-  private setCanvas = (el: HTMLElement | null) =>
-    this.canvas = el as HTMLElement;
+  // private setCanvas = (el: HTMLElement | null) =>
+  //   this.canvas = el as HTMLElement;
 
   render() {
     const { x, y, z } = this.state.transform;
@@ -185,11 +185,8 @@ class PinchZoomPan extends React.Component<PZPProps, PZPState> {
         className={this.props.className}
         style={{ ...ROOT_STYLES, ...this.props.style }}
       >
-        <div
-          ref={this.setRefPoint}
-          style={{ ...POINT_STYLES, transform }}
-        >
-          <div ref={this.setCanvas} style={CANVAS_STYLES}>
+        <div style={{ ...POINT_STYLES, transform }}>
+          <div style={CANVAS_STYLES}>
             {this.props.children}
           </div>
         </div>
