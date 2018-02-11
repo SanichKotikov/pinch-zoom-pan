@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { isTouch, getClientXY, getMidXY, limitZoom, getTouchesRange } from './helpers';
+import { isTouch, getClientXY, getMidXY, limitZoom, getTouchesRange, getWheelDelta } from './helpers';
 import { ROOT_STYLES, POINT_STYLES, CANVAS_STYLES, DEBUG_STYLES } from './styles';
 import { pzpAction, PZPProps, PZPState, EventMapItems } from './types';
 
@@ -161,7 +161,7 @@ class PinchZoomPan extends React.Component<PZPProps, PZPState> {
     if (!this.props.captureWheel && !event.altKey) return;
     event.preventDefault();
     event.stopPropagation();
-    const delta = event.deltaY / 1000 * -1;
+    const delta = getWheelDelta(event) * -1;
     const z = limitZoom(this.state.transform.z + delta, this.props.min, this.props.max);
     const { x, y } = this.getPositionByPoint(z, event.pageX, event.pageY);
     this.setState({ transform: this.updateTransform({ x, y, z }) });
