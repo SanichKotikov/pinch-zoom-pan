@@ -26,3 +26,23 @@ export const getTouchesRange = (e: TouchEvent): number => (
     Math.pow(e.touches[0].clientX - e.touches[1].clientX, 2)
   )
 );
+
+export const getWheelDelta = (event: WheelEvent): number => {
+  const delta = event.deltaY;
+
+  switch (event.deltaMode) {
+    case WheelEvent.DOM_DELTA_LINE:
+      return Math.abs(delta) >= 1
+        ? delta / 100       // FF (wheel) WIN/MAC
+        : delta / 100 * 2;  // FF (touch) WIN
+    case WheelEvent.DOM_DELTA_PAGE:
+      return Math.abs(delta) >= 1
+        ? delta / 100       // Ch/FF (wheel) WIN
+        : delta / 10;       // Ch/FF (touch) WIN
+    default:
+      // Big delta means that it's DOM_DELTA_PAGE (IE/EDGE)
+      return Math.abs(delta) > 600 // TODO: check it
+        ? delta / 10000
+        : delta / 1000;
+  }
+};
