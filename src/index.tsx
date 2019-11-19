@@ -178,7 +178,7 @@ class PinchZoomPan extends React.Component<PZPProps, PZPState> {
 
   render() {
     const { x, y, z } = this.state.transform;
-    const transform = `translate(${x}px, ${y}px) scale(${z})`;
+    const transform = `translate(${Math.round(x)}px, ${Math.round(y)}px) scale(${z})`;
     return (
       <div
         ref={this.setRoot}
