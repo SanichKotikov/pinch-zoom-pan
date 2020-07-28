@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export enum pzpAction {
   None = 0,
@@ -13,12 +13,12 @@ export interface PZPTransform {
 }
 
 export interface PZPProps {
-  className?: string;
-  style?: React.CSSProperties;
   min: number;
   max: number;
   captureWheel?: boolean;
   debug?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 export interface PZPState {

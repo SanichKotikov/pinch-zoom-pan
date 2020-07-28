@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { isTouch, getClientXY, getMidXY, limitZoom, getTouchesRange, getWheelDelta } from './helpers';
-import { ROOT_STYLES, POINT_STYLES, CANVAS_STYLES, DEBUG_STYLES } from './styles';
-import { pzpAction, PZPProps, PZPState, EventMapItems } from './types';
+import React from 'react';
+import { getClientXY, getMidXY, getTouchesRange, getWheelDelta, isTouch, limitZoom } from './helpers';
+import { CANVAS_STYLES, DEBUG_STYLES, POINT_STYLES, ROOT_STYLES } from './styles';
+import { EventMapItems, pzpAction, PZPProps, PZPState } from './types';
 
 class PinchZoomPan extends React.Component<PZPProps, PZPState> {
 
@@ -17,14 +17,14 @@ class PinchZoomPan extends React.Component<PZPProps, PZPState> {
 
   private eventsMap: EventMapItems[];
 
-  private root: HTMLElement;
+  private root: HTMLElement = undefined as any;
   // private refPoint: HTMLElement;
   // private canvas: HTMLElement;
 
-  private currentX: number;
-  private currentY: number;
-  private currentZ: number;
-  private currentR: number;
+  private currentX: number = 0;
+  private currentY: number = 0;
+  private currentZ: number = 0;
+  private currentR: number = 0;
 
   constructor(props: PZPProps) {
     super(props);
@@ -98,7 +98,8 @@ class PinchZoomPan extends React.Component<PZPProps, PZPState> {
       this.setState({ action: pzpAction.Pinching });
       this.currentZ = this.state.transform.z;
       this.currentR = getTouchesRange(event);
-    } else {
+    }
+    else {
       this.startMoving(event);
     }
   };
@@ -111,7 +112,8 @@ class PinchZoomPan extends React.Component<PZPProps, PZPState> {
       event.touches.length === 1
     ) {
       this.startMoving(event);
-    } else {
+    }
+    else {
       this.setState({ action: pzpAction.None });
     }
   };

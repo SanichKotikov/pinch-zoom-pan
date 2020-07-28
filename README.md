@@ -1,6 +1,6 @@
 # pinch-zoom-pan
 
-A react component that lets you add pinch-zoom and pan sub components.
+A React component lets you add pinch-zoom and pan sub components.
 
 ## Install
 
