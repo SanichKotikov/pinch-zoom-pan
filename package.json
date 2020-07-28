@@ -1,7 +1,7 @@
 {
   "name": "pinch-zoom-pan",
   "version": "3.0.0",
-  "description": "A react component that lets you add pinch-zoom and pan sub components",
+  "description": "A simple module that add pinch-zoom and pan to your HTML element",
   "main": "lib/index.js",
   "module": "lib/index.js",
   "sideEffects": false,
@@ -19,8 +19,6 @@
     "lib"
   ],
   "keywords": [
-    "react",
-    "react-component",
     "component",
     "pinch",
     "zoom",
@@ -31,13 +29,8 @@
   "bugs": {
     "url": "https://github.com/SanichKotikov/pinch-zoom-pan/issues"
   },
-  "peerDependencies": {
-    "react": ">= 16.8.0"
-  },
   "devDependencies": {
     "@size-limit/preset-small-lib": "4.5.5",
-    "@types/react": "16.9.43",
-    "react": "16.13.1",
     "size-limit": "4.5.5",
     "typescript": "3.9.7"
   },

@@ -1,33 +1,52 @@
-export const isTouch = (): boolean => (
-  (typeof window !== 'undefined' && 'ontouchstart' in window) ||
-  !!(typeof navigator !== 'undefined' && (navigator.maxTouchPoints || navigator.msMaxTouchPoints))
-);
+export function isTouch() {
+  return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+}
 
-export const getClientXY = (e: TouchEvent | MouseEvent) => {
-  if (e instanceof MouseEvent) {
-    return { X: e.clientX, Y: e.clientY };
+export function isTouchEvent(event: any): event is TouchEvent {
+  // IE & (old) EDGE doesn't have TouchEvent
+  return typeof TouchEvent !== 'undefined' && event instanceof TouchEvent;
+}
+
+export function getClientXY(event: TouchEvent | MouseEvent) {
+  const point = event instanceof MouseEvent ? event : event.touches[0];
+  return { X: point.clientX, Y: point.clientY };
+}
+
+export function getMidXY(event: TouchEvent) {
+  const [a, b] = Array.from(event.touches);
+  return {
+    mX: (a.pageX + b.pageX) / 2,
+    mY: (a.pageY + b.pageY) / 2,
+  };
+}
+
+export function limitZoom(z: number, min: number, max: number) {
+  return Math.max(Math.min(z, max), min);
+}
+
+export function getTouchesRange(event: TouchEvent) {
+  const [a, b] = Array.from(event.touches);
+  return Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
+}
+
+export function getScale(event: TouchEvent, currRange: number) {
+  // Webkit
+  let scale: number = (event as any).scale;
+  let pageX: number = (event as any).pageX;
+  let pageY: number = (event as any).pageY;
+
+  // Other browsers
+  if ([scale, pageX, pageY].some(val => val === undefined)) {
+    scale = getTouchesRange(event) / currRange;
+    const { mX, mY } = getMidXY(event);
+    pageX = mX;
+    pageY = mY;
   }
-  const touch = e.touches[0];
-  return { X: touch.clientX, Y: touch.clientY };
-};
 
-export const getMidXY = (e: TouchEvent) => ({
-  mX: (e.touches[0].pageX + e.touches[1].pageX) / 2,
-  mY: (e.touches[0].pageY + e.touches[1].pageY) / 2,
-});
+  return { scale, pageX, pageY };
+}
 
-export const limitZoom = (z: number, min: number, max: number) =>
-  Math.max(Math.min(z, max), min);
-
-// return Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
-export const getTouchesRange = (e: TouchEvent): number => (
-  Math.sqrt(
-    Math.pow(e.touches[0].clientY - e.touches[1].clientY, 2) +
-    Math.pow(e.touches[0].clientX - e.touches[1].clientX, 2)
-  )
-);
-
-export const getWheelDelta = (event: WheelEvent): number => {
+export function getWheelDelta(event: WheelEvent) {
   const delta = event.deltaY;
 
   switch (event.deltaMode) {
@@ -45,4 +64,4 @@ export const getWheelDelta = (event: WheelEvent): number => {
         ? delta / 10000
         : delta / 1000;
   }
-};
+}

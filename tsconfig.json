@@ -6,7 +6,6 @@
     "module": "es6",
     "moduleResolution": "node",
     "lib": ["dom", "es6"],
-    "jsx": "react",
     "strict": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,

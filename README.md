@@ -1,30 +1,50 @@
 # pinch-zoom-pan
 
-A React component lets you add pinch-zoom and pan sub components.
+A simple module that add pinch-zoom and pan to your HTML element.
 
-## Install
+### Using
 
 ```bash
 npm i -S pinch-zoom-pan
 ```
 
-## Usage
-
-```typescript jsx
-import PinchZoomPan from 'pinch-zoom-pan';
-
-<PinchZoomPan style={{ width: 300, height: 300 }}>
-  <img width="600" height="400" />
-</PinchZoomPan>
+```html
+<div class="root" id="root">
+  <div class="point">
+    <div class="canvas">
+      <!-- your content here -->
+    </div>
+  </div>
+</div>
 ```
 
-### Props
+```css
+.root {
+  position: relative;
+  transform: translateZ(0);
+  overflow: hidden;
+}
 
-| name | description | type | default |
-|------|-------------|------|---------|
-|className? | additional css class | `string` | `''` |
-|style? | additional style | `React.CSSProperties` | `{}` |
-|min? | minimal zoom | `number` | `0.1` |
-|max? | maximal zoom | `number` | `3.5` |
-|captureWheel? | capture wheel event, otherwise zoom works with holding `Alt` key | `boolean` | `false` |
-|debug? | render debug info | `boolean` | `false` |
+.point {
+  position: absolute;
+  width: 0;
+  height: 0;
+  transform: translate(0, 0) scale(1);
+  transform-origin: center;
+  will-change: transform;
+}
+
+.canvas {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+```
+
+```javascript
+import { create } from 'pinch-zoom-pan';
+create({ element: document.getElementById('root') });
+```
+
+#### Frameworks & libraries
+
+* [React example](https://github.com/SanichKotikov/react-family-tree-example/tree/master/src/components/PinchZoomPan)
