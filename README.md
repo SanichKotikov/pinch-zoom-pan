@@ -48,3 +48,4 @@ create({ element: document.getElementById('root') });
 #### Frameworks & libraries
 
 * [React example](https://github.com/SanichKotikov/react-family-tree-example/tree/master/src/components/PinchZoomPan)
+* [Solid example](https://github.com/SanichKotikov/solid-family-tree-example/tree/master/src/components/PinchZoomPan)
