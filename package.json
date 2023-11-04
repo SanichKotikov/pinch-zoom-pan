@@ -1,6 +1,6 @@
 {
   "name": "pinch-zoom-pan",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A simple module that add pinch-zoom and pan to your HTML element",
   "main": "lib/index.js",
   "module": "lib/index.js",
