@@ -2,7 +2,7 @@
 
 A simple module that add pinch-zoom and pan to your HTML element.
 
-### Using
+## Using
 
 ```bash
 npm i -S pinch-zoom-pan
@@ -42,10 +42,32 @@ npm i -S pinch-zoom-pan
 
 ```javascript
 import { create } from 'pinch-zoom-pan';
-create({ element: document.getElementById('root') });
+
+// Run module on mount
+const canvas = create({
+  element: document.getElementById('root'),
+  // optional settings:
+  minZoom: 0.5,
+  maxZoom: 2,
+  captureWheel: true,
+});
+
+// Should be called on unmount
+canvas.destroy();
+
+// Reset position and zoom to default values
+canvas.reset();
+
+// Manually update position and zoom
+canvas.update({ z: 1.2 });
+canvas.update((prev) => ({ z: prev.z + 0.2 }));
 ```
 
-#### Frameworks & libraries
+## Frameworks & libraries
 
 * [React example](https://github.com/SanichKotikov/react-family-tree-example/tree/master/src/components/PinchZoomPan)
 * [Solid example](https://github.com/SanichKotikov/solid-family-tree-example/tree/master/src/components/PinchZoomPan)
+
+## Contributing
+
+Please read [this documentation](https://github.com/SanichKotikov/contributing) before contributing.

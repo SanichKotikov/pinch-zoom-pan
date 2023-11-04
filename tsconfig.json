@@ -13,7 +13,6 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
     "downlevelIteration": true,
     "alwaysStrict": true,
     "declaration": true,

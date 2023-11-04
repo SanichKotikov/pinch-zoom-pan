@@ -3,27 +3,41 @@ import { getClientXY, getScale, getTouchesRange, getWheelDelta, isTouch, isTouch
 
 type Action = 'none' | 'move' | 'pinch';
 
-interface ICoordinates {
+export interface ICoordinates {
   x: number;
   y: number;
   z: number;
 }
 
-interface IOptions {
+export interface IOptions {
   element: HTMLElement;
   minZoom?: number;
   maxZoom?: number;
   captureWheel?: boolean;
 }
 
-export function create({ element, minZoom = MIN_ZOOM, maxZoom = MAX_ZOOM, captureWheel }: Readonly<IOptions>) {
+export type UpdateValue =
+  Partial<Readonly<ICoordinates>> |
+  ((prev: Readonly<ICoordinates>) => Partial<Readonly<ICoordinates>>);
+
+export interface ICanvas {
+  update: ((value: UpdateValue) => void);
+  reset: VoidFunction;
+  destroy: VoidFunction;
+}
+
+export function create({
+  element,
+  minZoom = MIN_ZOOM,
+  maxZoom = MAX_ZOOM,
+  captureWheel = false,
+}: Readonly<IOptions>): Readonly<ICanvas> {
   const touch = isTouch();
 
   let action: Action = 'none';
-  let state: Readonly<ICoordinates> = DEFAULT_STATE;
+  let state: Readonly<ICoordinates> = { ...DEFAULT_STATE };
   const current: ICoordinates & { range: number } = { x: 0, y: 0, z: 0, range: 0 };
 
-  // Update local state & call external set function
   function setState(value: Readonly<ICoordinates>) {
     state = value;
     const point = element.children.item(0);
@@ -40,7 +54,6 @@ export function create({ element, minZoom = MIN_ZOOM, maxZoom = MAX_ZOOM, captur
     setCurrentXY(getClientXY(event));
   }
 
-  // Calculate & set new position
   function setPosition(z: number, pageX: number, pageY: number) {
     const { left, top } = element.getBoundingClientRect();
 
@@ -108,13 +121,23 @@ export function create({ element, minZoom = MIN_ZOOM, maxZoom = MAX_ZOOM, captur
     { type: 'wheel', listener: onWheel },
   ];
 
-  // init
-  const { width, height } = element.getBoundingClientRect();
-  setState({ x: width / 2, y: height / 2, z: state.z });
+  function reset() {
+    const { width, height } = element.getBoundingClientRect();
+    setState({ x: width / 2, y: height / 2, z: DEFAULT_STATE.z });
+  }
 
-  // subscribe
+  reset();
+
   events.forEach(({ type, listener }) => element.addEventListener(type, listener));
 
-  // unsubscribe
-  return () => events.forEach(({ type, listener }) => element.removeEventListener(type, listener));
+  return {
+    reset,
+    update: (value: UpdateValue) => {
+      const updates: Partial<Readonly<ICoordinates>> = typeof value === 'function' ? value(state) : value;
+      setState({ ...state, ...updates });
+    },
+    destroy: () => {
+      events.forEach(({ type, listener }) => element.removeEventListener(type, listener))
+    },
+  };
 }
