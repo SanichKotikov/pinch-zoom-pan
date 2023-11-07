@@ -69,8 +69,6 @@ export function create({
   }
 
   function onStart(event: TouchEvent | MouseEvent) {
-    event.preventDefault();
-
     if (isTouchEvent(event) && event.touches.length === 2) {
       action = 'pinch';
       current.z = state.z;
