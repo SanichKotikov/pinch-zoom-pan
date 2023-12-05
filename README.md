@@ -68,6 +68,9 @@ canvas.update((prev) => ({ z: prev.z + 0.2 }));
 * [React example](https://github.com/SanichKotikov/react-family-tree-example/tree/master/src/components/PinchZoomPan)
 * [Solid example](https://github.com/SanichKotikov/solid-family-tree-example/tree/master/src/components/PinchZoomPan)
 
+## Unsupported frameworks
+* svelte
+
 ## Contributing
 
 Please read [this documentation](https://github.com/SanichKotikov/contributing) before contributing.
