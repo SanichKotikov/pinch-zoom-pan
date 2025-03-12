@@ -1,6 +1,6 @@
 {
   "name": "pinch-zoom-pan",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "A simple module that add pinch-zoom and pan to your HTML element",
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -30,9 +30,9 @@
     "url": "https://github.com/SanichKotikov/pinch-zoom-pan/issues"
   },
   "devDependencies": {
-    "@size-limit/preset-small-lib": "10.0.2",
-    "size-limit": "10.0.2",
-    "typescript": "5.2.2"
+    "@size-limit/preset-small-lib": "11.2.0",
+    "size-limit": "11.2.0",
+    "typescript": "5.8.2"
   },
   "size-limit": [
     {

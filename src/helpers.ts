@@ -1,5 +1,5 @@
 export function isTouch() {
-  return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  return window.matchMedia("(pointer: coarse)").matches;
 }
 
 export function isTouchEvent(event: any): event is TouchEvent {
